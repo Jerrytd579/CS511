@@ -1,6 +1,9 @@
-// Jerry Cheng & Andrew Chuah
-// I pledge my honor that I have abided by the Stevens Honor System.
-// 7/16/2020
+/**********************************************************************
+ * Andrew Chuah & Jerry Cheng
+ * I pledge my honor that I have abided by the Stevens Honor System.
+ * 7/16/2020
+ *********************************************************************/ 
+
 import java.io.*;
 import java.util.*;
 
@@ -19,8 +22,11 @@ public class TextSwap {
     }
 
     private static Interval[] getIntervals(int numChunks, int chunkSize) {
-        // TODO: Implement me!
-        return null;
+        Interval[] intervals = new Interval[numChunks];
+        for(int i = 0; i < numChunks; i++){
+            intervals[i] = new Interval(i * chunkSize, (i * chunkSize) + (chunkSize - 1));
+        }
+        return intervals;
     }
 
     private static List<Character> getLabels(int numChunks) {
@@ -39,8 +45,23 @@ public class TextSwap {
     private static char[] runSwapper(String content, int chunkSize, int numChunks) {
         List<Character> labels = getLabels(numChunks);
         Interval[] intervals = getIntervals(numChunks, chunkSize);
-        // TODO: Order the intervals properly, then run the Swapper instances.
-        return null;
+        char[] result = new char[numChunks * chunkSize];
+        ArrayList<Thread> threads = new ArrayList<>();
+
+        for(int i = 0; i < labels.size(); i++){
+            Thread t = new Thread(new Swapper(intervals[labels.get(i) - 'a'], content, result, i * chunkSize));
+            threads.add(t);
+            t.start();
+        }
+
+        for(int i = 0; i < threads.size(); i++){
+            try{
+                threads.get(i).join();
+            }
+            catch (InterruptedException e) {}
+        }
+
+        return result;
     }
 
     private static void writeToFile(String contents, int chunkSize, int numChunks) throws Exception {

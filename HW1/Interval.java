@@ -1,6 +1,3 @@
-// Jerry Cheng & Andrew Chuah
-// I pledge my honor that I have abided by the Stevens Honor System.
-// 7/16/2020
 public class Interval {
     private int x;
     private int y;

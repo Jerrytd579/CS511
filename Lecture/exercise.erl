@@ -3,6 +3,7 @@
 -compile(export_all).
 -author("Jerry").
 
+
 %% fact(N) computes N!
 %% Precondition: N is a number
 fact(0) ->
